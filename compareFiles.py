@@ -23,10 +23,11 @@ def dirWalker(dirList,root,base):
 	print('Searching %s\\'%root)
 	os.chdir(root)
 	for item in os.listdir():
-		total = stringSum(item)+os.stat(item).st_size
-		while total in dirList:
-			total += 0.1
-		dirList[total]=[item, os.stat(item).st_size]
+		if os.path.isfile(item):
+			total = stringSum(item)+os.stat(item).st_size
+			while total in dirList:
+				total += 0.1
+			dirList[total]=[item, os.stat(item).st_size]
 	for item in os.listdir():
 		if os.path.isdir(item):
 			dirWalker(dirList,item,base)
@@ -42,9 +43,9 @@ if __name__ == '__main__':
 		outputFile = sys.argv[3]
 		outputToFile = True
 	else:
-		print('Usage: "python compareDirectories.py comparepath\\\\to\\\\directory\\\\1 path\\\\to\\\\directory\\\\2"')
+		print('Usage: "python compareFiles.py comparepath\\\\to\\\\directory\\\\1 path\\\\to\\\\directory\\\\2"')
 		print('OR')
-		print('Usage: "python compareDirectories.py comparepath\\\\to\\\\directory\\\\1 path\\\\to\\\\directory\\\\2 outputFileName.txt"')
+		print('Usage: "python compareFiles.py comparepath\\\\to\\\\directory\\\\1 path\\\\to\\\\directory\\\\2 outputFileName.txt"')
 		exit()
 		
 	if not os.path.isdir(sys.argv[1]):
